@@ -1,0 +1,32 @@
+
+nav {
+    background-color: #91c4f2;
+    color: white;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .nav-container {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  nav a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    transition: background-color 0.3s;
+  }
+  
+  nav a:hover {
+    background-color: #8ca0d7;
+  }
+
+  body {
+    background-color: #f2f2f2;
+  }

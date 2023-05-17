@@ -12,13 +12,13 @@
 <body>
 	<div class="container">
 		<div class="row", id="header">
-			
+		<?php @include('Header.php'); ?>
 		</div>
 		<div class="row", id="nav">  
 			
 		</div>
 		<div class="row", id="content">
-			
+			Topic Page
 		</div>
 		<div class="row", id="footer">
 			
