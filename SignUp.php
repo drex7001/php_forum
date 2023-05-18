@@ -25,7 +25,20 @@ $cookieUser = getCookieUser();
 		<div class="row" , id="content">
 			<div class="sign_up_container">
 				<h1>Sign Up</h1>
-				<form action="register.php" method="post">
+				<?php
+    // Check if a message is set in the session
+    session_start();
+    if (isset($_SESSION['message'])) {
+      $message = $_SESSION['message'];
+      $messageClass = $_SESSION['messageClass'];
+      // Display the message
+      echo '<div class="' . $messageClass . '">' . $message . '</div>';
+      // Clear the session variables
+      unset($_SESSION['message']);
+      unset($_SESSION['messageClass']);
+    }
+    ?>
+				<form action="AddUser.php" method="post">
 					<label for="username">Username:</label>
 					<input type="text" id="username" name="username" required>
 					<label for="firstName">First Name:</label>
@@ -33,7 +46,7 @@ $cookieUser = getCookieUser();
 					<label for="surname">Surname:</label>
 					<input type="text" id="surname" name="surname" required>
 					<label for="shortTag">Short Tag:</label>
-					<input type="text" id="shortTag" name="shortTag" required>
+					<input type="text" id="short_tag" name="short_tag" required>
 					<input type="submit" value="Sign Up">
 				</form>
 			</div>
