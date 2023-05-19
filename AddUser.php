@@ -23,14 +23,16 @@ $stmt->bindValue(':short_tag', $short_tag, SQLITE3_TEXT);
 
 // Execute the prepared statement
 $result = $stmt->execute();
-
+// var_dump("Emla");
 // Check if the insertion was successful
 if ($result) {
   	// Redirect to a success page
   	session_start();
 	$message = "User has been added successfully.";
 	$messageClass = "success";
-	// header("Location: SignUp.php");
+	$_SESSION['message']=$message;
+	$_SESSION['messageClass']=$messageClass;
+	header("Location: SignUp.php");
 } else {
 //Redirect to an error page
 //header("Location: error.php");

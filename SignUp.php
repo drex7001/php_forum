@@ -34,8 +34,10 @@ $cookieUser = getCookieUser();
       // Display the message
       echo '<div class="' . $messageClass . '">' . $message . '</div>';
       // Clear the session variables
-      unset($_SESSION['message']);
-      unset($_SESSION['messageClass']);
+	var_dump($_SESSION['message']);
+
+	unset($_SESSION['message']);
+	unset($_SESSION['messageClass']);
     }
     ?>
 				<form action="AddUser.php" method="post">
