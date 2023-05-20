@@ -1,5 +1,5 @@
-#header{
-
+* {
+    margin: 0;
 }
 
 h1{
@@ -98,4 +98,23 @@ nav {
   input[type="submit"]:hover {
     background-color: #7e1f86;
   }
+
+
+  .footer {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 20px;
+    margin-top: 100px;
+  }
+  
+  .footer_name {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  /* footer_name
+footer_str_id
+footer_course_id */
 

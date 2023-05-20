@@ -82,4 +82,49 @@ function makeOutputSafe($unsafeString)
 	return $safeOutput;
 }	
 
+
+function authenticateUser($username)
+{
+    // Connect to the SQLite database
+    $db = connectToDatabase();
+
+    try {
+        // Prepare the SQL statement
+        $stmt = $db->prepare("SELECT UserID FROM User WHERE UserName = :username");
+        $stmt->bindValue(":username", $username, PDO::PARAM_STR);
+
+        // Execute the statement
+        $stmt->execute();
+
+        // Fetch the result
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Check if a matching user was found
+        if ($row) {
+            // Return the user ID
+            return $row['UserID'];
+        } else {
+            // Return false if authentication fails
+            return false;
+        }
+    } catch (PDOException $e) {
+        // Handle any database errors
+        echo "Error: " . $e->getMessage();
+        return false;
+    } finally {
+        // Close the database connection
+        $db = NULL;
+	}
+}
+
+function verify_query($result_set) {
+
+	global $connection;
+
+	if (!$result_set) {
+		die("Database query failed: " . mysqli_error($connection));
+	}
+
+}
+
 ?>

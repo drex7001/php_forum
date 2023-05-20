@@ -22,7 +22,7 @@
 			Home Page
 		</div>
 		<div class="row", id="footer">
-			
+		<?php @include('Footer.php'); ?>
 		</div>
 	</div>
 </body>

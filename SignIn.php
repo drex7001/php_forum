@@ -1,4 +1,5 @@
 <?php // <--- do NOT put anything before this PHP tag
+session_start();
 include('Functions.php');
 $cookieMessage = getCookieMessage();
 $cookieUser = getCookieUser();
@@ -23,15 +24,22 @@ $cookieUser = getCookieUser();
 		<div class="row" , id="content">
 			<div class="sign_in_container">
 				<h1>Sign In</h1>
-				<form action="login.php" method="post">
-					<label for="username">Username:</label>
-					<input type="text" id="username" name="username" required>
+				<?php
+				// Display error message if set
+				if (isset($_SESSION['error'])) {
+					echo '<p>' . $_SESSION['error'] . '</p>';
+					unset($_SESSION['error']);
+				}
+				?>
+				<form action="LogInUser.php" method="post">
+					<label for="UserName">Username:</label>
+					<input type="text" id="UserName" name="UserName">
 					<input type="submit" value="Sign In">
 				</form>
 			</div>
 		</div>
 		<div class="row" , id="footer">
-
+		<?php @include('Footer.php'); ?>
 		</div>
 	</div>
 </body>

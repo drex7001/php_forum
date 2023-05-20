@@ -17,11 +17,17 @@
 		<div class="row", id="nav">  
 			
 		</div>
-		<div class="row", id="content">
-			Topic Page
-		</div>
-		<div class="row", id="footer">
-			
+		<div class="row" , id="content">
+			<div class="sign_in_container">
+				<h1>Create new topic</h1>
+				<form action="AddTopic.php" method="post">
+					<label for="topic">Topic:</label>
+					<input type="text" id="topic" name="topic" required>
+					<input type="submit" value="Submit">
+				</form>
+			</div>
+		<div class="row", id="footer">	
+		<?php @include('Footer.php'); ?>	
 		</div>
 	</div>
 </body>
