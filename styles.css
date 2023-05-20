@@ -161,6 +161,33 @@ input[type='submit']:hover {
   height: auto;
 }
 
-/* footer_name
-footer_str_id
-footer_course_id */
+.table-container {
+  display: flex;
+  justify-content: center;
+}
+
+.my-table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 600px;
+}
+
+.my-table th,
+.my-table td {
+  border: 1px solid #858484;
+  padding: 8px;
+}
+
+.my-table th {
+  background-color: #0064b6;
+  color: #ffffff; /* Add desired color for the text */
+}
+
+.pagination-links {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination-links a {
+  margin-right: 5px;
+}

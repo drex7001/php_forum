@@ -2,7 +2,7 @@
 include('Functions.php');
 
 // Function to set the error message and redirect back to the login page
-function redirectWithError($error)
+function redirectWithError()
 {
 	header('Location: SignIn.php');
 	exit();
@@ -11,12 +11,11 @@ function redirectWithError($error)
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	// Get the username from the form
-	$username = $_POST['UserName'];
-	var_dump($username);
+	$username = trim($_POST['UserName']);
 	// Validate the username (you can customize this validation according to your requirements)
 	if (empty($username)) {
 		setCookieMessage('Please enter username');
-		redirectWithError('Please enter a username.');
+		redirectWithError();
 	}
 
 	// Perform your database query to validate the username (assuming the table name is 'users')
@@ -24,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$db = connectToDatabase();
 
 	if (!$db) {
-		redirectWithError('Failed to connect to the database.');
+		redirectWithError();
 	}
 
 	$query = "SELECT COUNT(*) as count FROM `user` WHERE `username` = :username";
@@ -40,6 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		exit();
 	} else {
 		setCookieMessage('User name not found');
-		redirectWithError('Invalid username.');
+		redirectWithError();
 	}
 }
