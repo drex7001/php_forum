@@ -65,9 +65,9 @@ $result = $stmt->execute();
 
 // Check if the insertion was successful
 if ($result) {
-    setCookieMessage('You have successfully created an account. Please log in to continue');
+    setCookieMessage('The username ' .$username. ' has been added successfully. Please Sign into posting.');
     setCookie('messageClass', 'success-message');
-	header("Location: SignUp.php");
+	header("Location: HomePage.php");
 } else {
     setCookieMessage('Error');
     setCookie('messageClass', 'error-message');
