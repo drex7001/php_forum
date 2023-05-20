@@ -3,5 +3,8 @@
 // this php file will have no HTML
 
 	include('Functions.php');
+	deleteCookie('CookieUser');
+	redirect('HomePage.php');
+
 	
 ?>

@@ -75,7 +75,7 @@ nav {
   }
   
   input[type="text"] {
-    height: 40px;
+    height: 20px;
     font-size: 16px;
     padding: 10px;
     margin-bottom: 20px;
@@ -113,6 +113,29 @@ nav {
     font-weight: bold;
     margin-bottom: 10px;
   }
+
+
+  .success-message {
+    background-color: green;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-weight: normal;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .error-message {
+    background-color: red;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-weight: normal;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+
+
+
 
   /* footer_name
 footer_str_id

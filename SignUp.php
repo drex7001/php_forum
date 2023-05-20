@@ -1,8 +1,6 @@
 <?php // <--- do NOT put anything before this PHP tag
-session_start();
 include('Functions.php');
-$cookieMessage = getCookieMessage();
-$cookieUser = getCookieUser();
+// $cookieUser = getCookieUser();
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,20 +24,16 @@ $cookieUser = getCookieUser();
 		<div class="row" , id="content">
 			<div class="sign_up_container">
 				<h1>Sign Up</h1>
+
 				<?php
-				// Check if a message is set in the session
-				if (isset($_SESSION['message'])) {
-					$message = $_SESSION['message'];
-					$messageClass = $_SESSION['messageClass'];
-
-					// Display the message
-					echo '<div class="' . $messageClass . '">' . $message . '</div>';
-
-					// Clear the session variables
-					unset($_SESSION['message']);
-					unset($_SESSION['messageClass']);
+				// Display  message if set
+				$message = getCookieMessage();
+				if($message){
+					$messageClass = strpos($message, 'successfully') !== false ? 'success-message' : 'error-message';
+					echo '<div class="'.$messageClass.'">' . getCookieMessage() . '</div>';
 				}
 				?>
+
 				<form action="AddUser.php" method="post">
 					<label for="username">Username:</label>
 					<input type="text" id="username" name="username">
@@ -54,7 +48,7 @@ $cookieUser = getCookieUser();
 			</div>
 		</div>
 		<div class="row" , id="footer">
-		<?php @include('Footer.php'); ?>	
+			<?php @include('Footer.php'); ?>
 		</div>
 	</div>
 </body>

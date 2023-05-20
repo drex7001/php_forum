@@ -2,6 +2,11 @@
 include('Functions.php');
 $cookieMessage = getCookieMessage();
 $cookieUser = getCookieUser();
+
+// if (!isset($_SESSION['user_id'])) {
+// 	header('Location: index.php');
+// }
+
 ?>
 <!DOCTYPE html>
 <html>

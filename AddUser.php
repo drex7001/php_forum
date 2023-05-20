@@ -4,11 +4,50 @@
 
 include('Functions.php');
 
+// Function to check if a field is empty or not
+function isEmptyField($field) {
+    return empty($field);
+}
+
+// Function to check if a username already exists in the database
+function isExistingUsername($username) {
+    // Connect to the SQLite database
+    $db = connectToDatabase();
+
+    // Prepare the SQL statement to check for the username
+    $stmt = $db->prepare('SELECT COUNT(*) FROM User WHERE UserName = :username');
+    $stmt->bindValue(':username', $username);
+
+    // Execute the prepared statement
+    $stmt->execute();
+
+    // Fetch the result
+    $count = $stmt->fetchColumn();
+
+    return $count > 0;
+}
+
 // Sanitize the form data to prevent SQL injection
 $username = makeOutputSafe(trim($_POST['username']));
 $firstName = makeOutputSafe(trim($_POST['firstName']));
 $surname = makeOutputSafe(trim($_POST['surname']));
 $short_tag = makeOutputSafe(trim($_POST['short_tag']));
+
+// Check if any field is empty
+if (isEmptyField($username) || isEmptyField($firstName) || isEmptyField($surname) || isEmptyField($short_tag)) {
+    setCookieMessage('Please fill in all the fields');
+    setCookie('messageClass', 'error-message');
+    header("Location: SignUp.php");
+    exit; // Stop further execution
+}
+
+// Check if the username already exists
+if (isExistingUsername($username)) {
+    setCookieMessage('The Username ' .$username. ' already taken');
+    setCookie('messageClass', 'error-message');
+    header("Location: SignUp.php");
+    exit; // Stop further execution
+}
 
 // Connect to the SQLite database
 $db = connectToDatabase();
@@ -23,20 +62,14 @@ $stmt->bindValue(':short_tag', $short_tag);
 
 // Execute the prepared statement
 $result = $stmt->execute();
-// var_dump("Emla");
+
 // Check if the insertion was successful
 if ($result) {
-  	// Redirect to a success page
-  	session_start();
-	$message = "User has been added successfully.";
-	$messageClass = "success";
-	$_SESSION['message']=$message;
-	$_SESSION['messageClass']=$messageClass;
+    setCookieMessage('You have successfully created an account. Please log in to continue');
+    setCookie('messageClass', 'success-message');
 	header("Location: SignUp.php");
 } else {
-//Redirect to an error page
-//header("Location: error.php");
-session_start();
-	$message = "An error occurred while adding the user. Please try again.";
-  	$messageClass = "error";
+    setCookieMessage('Error');
+    setCookie('messageClass', 'error-message');
+    header("Location: SignUp.php");
 }

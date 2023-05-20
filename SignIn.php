@@ -1,5 +1,4 @@
 <?php // <--- do NOT put anything before this PHP tag
-session_start();
 include('Functions.php');
 $cookieMessage = getCookieMessage();
 $cookieUser = getCookieUser();
@@ -25,10 +24,11 @@ $cookieUser = getCookieUser();
 			<div class="sign_in_container">
 				<h1>Sign In</h1>
 				<?php
-				// Display error message if set
-				if (isset($_SESSION['error'])) {
-					echo '<p>' . $_SESSION['error'] . '</p>';
-					unset($_SESSION['error']);
+				// Display  message if set
+				$message = getCookieMessage();
+				if($message){
+					$messageClass = strpos($message, 'successfully') !== false ? 'success-message' : 'error-message';
+					echo '<div class="'.$messageClass.'">' . getCookieMessage() . '</div>';
 				}
 				?>
 				<form action="LogInUser.php" method="post">
