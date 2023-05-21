@@ -3,9 +3,6 @@ include 'Functions.php';
 $cookieMessage = getCookieMessage();
 $cookieUser = getCookieUser();
 
-// if (!isset($_SESSION['user_id'])) {
-// 	header('Location: index.php');
-// }
 
 ?>
 <!DOCTYPE html>
@@ -27,60 +24,58 @@ $cookieUser = getCookieUser();
 		<div class="row" , id="content">
 			<div>
 				<?php
-				if (isset($_COOKIE['topic_already_exists']) && $_COOKIE['topic_already_exists'] == 'true') {
-					echo 'The topic you entered already exists.';
-				} else {
-					// Get all of the topics from the database
-					$dbh = connectToDatabase();
-					$sql = 'SELECT * FROM topic';
-					$statement = $dbh->prepare($sql);
-					$statement->execute();
-					$topics = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-					// Get the total number of topics
-					$totalTopics = count($topics);
+				// Get all of the topics from the database
+				$dbh = connectToDatabase();
+				$sql = 'SELECT * FROM topic';
+				$statement = $dbh->prepare($sql);
+				$statement->execute();
+				$topics = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-					// Set the default page number to 1
-					$pageNumber = 1;
+				// Get the total number of topics
+				$totalTopics = count($topics);
 
-					// Get the page number from the URL
-					if (isset($_GET['page'])) {
-						$pageNumber = $_GET['page'];
-					}
+				// Set the default page number to 1
+				$pageNumber = 1;
 
-					// Calculate the offset
-					$offset = ($pageNumber - 1) * 10;
+				// Get the page number from the URL
+				if (isset($_GET['page'])) {
+					$pageNumber = $_GET['page'];
+				}
 
-					// Get the topics for the current page
-					$sql = "SELECT * FROM Topic INNER JOIN User ON Topic.UserID = User.UserID ORDER BY Topic.TopicID DESC LIMIT 10 OFFSET $offset";
-					$statement = $dbh->prepare($sql);
-					$statement->execute();
-					$currentTopics = $statement->fetchAll(PDO::FETCH_ASSOC);
+				// Calculate the offset
+				$offset = ($pageNumber - 1) * 10;
 
-					// Create the table
-					echo '<div class="table-container">';
-					echo '<table class="my-table">';
-					echo '<tr><th>Topic</th><th>Created by</th><th>Datetime</th></tr>';
-					foreach ($currentTopics as $topic) {
-						echo '
+				// Get the topics for the current page
+				$sql = "SELECT * FROM Topic INNER JOIN User ON Topic.UserID = User.UserID ORDER BY Topic.TopicID DESC LIMIT 10 OFFSET $offset";
+				$statement = $dbh->prepare($sql);
+				$statement->execute();
+				$currentTopics = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+				// Create the table
+				echo '<div class="table-container">';
+				echo '<table class="my-table">';
+				echo '<tr><th>Topic</th><th>Created by</th><th>Datetime</th></tr>';
+				foreach ($currentTopics as $topic) {
+					echo '
 						<tr>
 							<td><a href="Forum.php?Topic=' . $topic['Topic'] . '">' . $topic['Topic'] . '</a></td>
 							<td>' . $topic['FirstName'] . ' ' . $topic['SurName'] . '</td>
 							<td>' . $topic['DateTime'] . '</td>
 						</tr>
 						';
-					}
-					
-					echo '</table>';
-					echo '</div>';
-
-					// Create the pagination links
-					echo '<div class="pagination-links">';
-					for ($i = 1; $i <= ceil($totalTopics / 10); $i++) {
-						echo "<a href='?page=$i'>$i</a> ";
-					}
-					echo '</div>';
 				}
+
+				echo '</table>';
+				echo '</div>';
+
+				// Create the pagination links
+				echo '<div class="pagination-links">';
+				for ($i = 1; $i <= ceil($totalTopics / 10); $i++) {
+					echo "<a href='?page=$i'>$i</a> ";
+				}
+				echo '</div>';
+
 				?>
 				<?php
 				if (getCookieUser()) {

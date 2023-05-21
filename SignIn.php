@@ -26,9 +26,9 @@ $cookieUser = getCookieUser();
 				<?php
 				// Display  message if set
 				$message = getCookieMessage();
-				if($message){
+				if ($message) {
 					$messageClass = strpos($message, 'successfully') !== false ? 'success-message' : 'error-message';
-					echo '<div class="'.$messageClass.'">' . getCookieMessage() . '</div>';
+					echo '<div class="' . $messageClass . '">' . getCookieMessage() . '</div>';
 				}
 				?>
 				<form action="LogInUser.php" method="post">
@@ -39,7 +39,7 @@ $cookieUser = getCookieUser();
 			</div>
 		</div>
 		<div class="row" , id="footer">
-		<?php @include('Footer.php'); ?>
+			<?php @include('Footer.php'); ?>
 		</div>
 	</div>
 </body>
