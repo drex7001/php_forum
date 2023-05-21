@@ -9,6 +9,31 @@ if (isset($_GET['Topic'])) {
     redirect('Topics.php');
 }
 
+
+// Handle the increment of like count
+if (isset($_GET['postID']) && is_numeric($_GET['postID'])) {
+    $postID = $_GET['postID'];
+
+    // Check if the user has already liked the post using cookies or sessions
+    $likedPosts = isset($_COOKIE['likedPosts']) ? unserialize($_COOKIE['likedPosts']) : [];
+    if (!in_array($postID, $likedPosts)) {
+        // Increase the like count in the database
+        $dbh = connectToDatabase();
+        $statement = $dbh->prepare('UPDATE Post SET Likes = Likes + 1 WHERE PostID = ?');
+        $statement->bindValue(1, $postID);
+        $statement->execute();
+
+        // Store the post ID in the likedPosts array
+        $likedPosts[] = $postID;
+        // Set the likedPosts array in cookies or sessions
+        setcookie('likedPosts', serialize($likedPosts), time() + 3600); // Cookie expires in 1 hour
+
+        // Redirect back to the current page
+        header('Location: ' . $_SERVER['REQUEST_URI']);
+        exit();
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -68,43 +93,38 @@ if (isset($_GET['Topic'])) {
                 echo '<tr><th>Topic</th><th>Created by</th><th>Datetime</th><th>Likes</th></tr>';
                 foreach ($currentPosts as $post) {
                     echo '
-                        <tr>
-                            <td>' .
-                        $post['Post'] .
-                        '</td>
-                            <td>' .
-                        $post['FirstName'] .
-                        ' ' .
-                        $post['SurName'] .
-                        '</td>
-                            <td>' .
-                        $post['DateTime'] .
-                        '</td>
-                            <td>
-                                <span>
-                                    <a href="Forum.php?postID=' .
-                        $post['PostID'] .
-                        '">
-                                        ' .
-                        $post['Likes'] .
-                        '
-                                        <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M16 0.5C13.9 0.5 12.05 1.55 11 3.2C9.95 1.55 8.1 0.5 6 0.5C2.7 0.5 0 3.2 0 6.5C0 12.45 11 18.5 11 18.5C11 18.5 22 12.5 22 6.5C22 3.2 19.3 0.5 16 0.5Z" fill="#F44336"/>
-                                        </svg>
-                                    </a>
-                                </span>
-                            </td>
-                        </tr>
-                    ';
+    <tr>
+        <td>' . $post['Post'] . '</td>
+        <td>' . $post['FirstName'] . ' ' . $post['SurName'] . '</td>
+        <td>' . $post['DateTime'] . '</td>
+        <td>
+            <span>
+                <a href="Forum.php?Topic=' . urlencode($thisTopic) . '&postID=' . $post['PostID'] . '">' . $post['Likes'] . '
+                    <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 0.5C13.9 0.5 12.05 1.55 11 3.2C9.95 1.55 8.1 0.5 6 0.5C2.7 0.5 0 3.2 0 6.5C0 12.45 11 18.5 11 18.5C11 18.5 22 12.5 22 6.5C22 3.2 19.3 0.5 16 0.5Z" fill="#F44336"/>
+                    </svg>
+                </a>
+            </span>
+        </td>
+    </tr>
+';
                 }
                 
                 echo '</table>';
                 echo '</div>';
+
+				// <span>
+				// 	<a href="Forum.php?postID=' .$post['PostID'] .'">' .$post['Likes'] .'
+				// 		<svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+				// 			<path d="M16 0.5C13.9 0.5 12.05 1.55 11 3.2C9.95 1.55 8.1 0.5 6 0.5C2.7 0.5 0 3.2 0 6.5C0 12.45 11 18.5 11 18.5C11 18.5 22 12.5 22 6.5C22 3.2 19.3 0.5 16 0.5Z" fill="#F44336"/>
+				// 		</svg>
+				// 	</a>
+				// </span>
                 
                 // Create the pagination links
                 echo '<div class="pagination-links">';
                 for ($i = 1; $i <= ceil($count / 10); $i++) {
-                    echo '<a href="?Topic=' . urlencode($thisTopic) . '&page=' . $i . '">' . $i . '</a> ';
+                    echo '<a href="?Topic=' . urlencode($thisTopic) . '&page=' . $i . '">' . $i . '</a>';
                 }
                 echo '</div>';
                 
@@ -134,6 +154,7 @@ if (isset($_GET['Topic'])) {
                     echo '<p>Please sign in to create a new topic.</p>';
                 }
                 ?>
+
 
             </div>
         </div>
