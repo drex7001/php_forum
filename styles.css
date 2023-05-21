@@ -178,6 +178,12 @@ input[type='submit']:hover {
   padding: 8px;
 }
 
+.my-table td span{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .my-table th {
   background-color: #0064b6;
   color: #ffffff; /* Add desired color for the text */
